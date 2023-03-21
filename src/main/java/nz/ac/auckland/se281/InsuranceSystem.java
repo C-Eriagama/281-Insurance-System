@@ -39,11 +39,9 @@ public class InsuranceSystem {
   public void createNewProfile(String userName, String age) {
 
     // Initialise variables to error check and help formatting
-    int nameLength = userName.length();
-    String firstLetter = "" + userName.charAt(0);
     int years = Integer.parseInt(age);
-
-    userName = firstLetter.toUpperCase() + userName.substring(1, nameLength).toLowerCase();
+    userName = toTitleCase(userName);
+    int nameLength = userName.length();
 
     // Check for any errors with input
 
@@ -89,5 +87,13 @@ public class InsuranceSystem {
 
   public void createPolicy(PolicyType type, String[] options) {
     // TODO: Complete this method.
+  }
+
+  // method to convert string to titlecase
+  public String toTitleCase(String text) {
+    int nameLength = text.length();
+    String firstLetter = "" + text.charAt(0);
+    text = firstLetter.toUpperCase() + text.substring(1, nameLength).toLowerCase();
+    return text;
   }
 }
