@@ -22,4 +22,12 @@ public class Profile {
   public int getAge() {
     return age;
   }
+
+  public boolean getLoaded() {
+    return loaded;
+  }
+
+  public void setloaded(boolean value) {
+    loaded = value;
+  }
 }

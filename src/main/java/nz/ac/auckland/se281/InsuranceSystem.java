@@ -74,7 +74,23 @@ public class InsuranceSystem {
   }
 
   public void loadProfile(String userName) {
-    // TODO: Complete this method.
+    userName = toTitleCase(userName);
+
+    // find profile
+    boolean match = false;
+
+    for (int i = 0; i < database.size(); i++) {
+
+      Profile temp = database.get(i);
+      if (temp.getFirstName() == userName) {
+        match = true;
+        break;
+      }
+    }
+
+    if (!match) {
+      MessageCli.NO_PROFILE_FOUND_TO_LOAD.printMessage(userName);
+    }
   }
 
   public void unloadProfile() {
