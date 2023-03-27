@@ -60,7 +60,7 @@ public class InsuranceSystem {
     // Check if username already exists
     for (int i = 0; i < database.size(); i++) {
       Profile temp = database.get(i);
-      if (temp.getFirstName() == userName) {
+      if (temp.getFirstName().equals(userName)) {
         MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(userName);
         return;
       }
