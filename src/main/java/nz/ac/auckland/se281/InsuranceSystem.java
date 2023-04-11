@@ -48,6 +48,9 @@ public class InsuranceSystem {
     userName = toTitleCase(userName);
     int nameLength = userName.length();
 
+    int profile = findProfile(userName);
+    int loadedProfile = findLoadedProfile();
+
     // Check for any errors with input
 
     // Check if age is below 0
@@ -62,19 +65,17 @@ public class InsuranceSystem {
       return;
     }
 
-    // Check if username already exists or if profile loaded
-    for (int i = 0; i < database.size(); i++) {
-      Profile temp = database.get(i);
+    // check if profile exists
+    if (profile != -1) {
+      MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(userName);
+      return;
+    }
 
-      if (temp.getFirstName().equals(userName)) {
-        MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(userName);
-        return;
-      }
-
-      if (temp.getLoaded()) {
-        MessageCli.CANNOT_CREATE_WHILE_LOADED.printMessage(temp.getFirstName());
-        return;
-      }
+    // check if profile is currently loaded
+    if (loadedProfile != -1) {
+      MessageCli.CANNOT_CREATE_WHILE_LOADED.printMessage(
+          database.get(loadedProfile).getFirstName());
+      return;
     }
 
     // Add profile to database
@@ -87,74 +88,62 @@ public class InsuranceSystem {
   public void loadProfile(String userName) {
     userName = toTitleCase(userName);
 
-    // find profile and see if profile already loaded
-    boolean match = false;
-    int profileLoaded = -1;
-    int profileToLoad = -1;
+    int profile = findProfile(userName);
+    int loadedProfile = findLoadedProfile();
 
-    for (int i = 0; i < database.size(); i++) {
-
-      Profile temp = database.get(i);
-
-      if (temp.getLoaded()) {
-        profileLoaded = i;
-      }
-
-      if (temp.getFirstName().equals(userName)) {
-        match = true;
-        profileToLoad = i;
-      }
-    }
-
-    if (!match) {
+    // profile not found
+    if (profile == -1) {
       MessageCli.NO_PROFILE_FOUND_TO_LOAD.printMessage(userName);
       return;
     }
 
-    if (profileLoaded != -1) {
-      database.get(profileLoaded).setloaded(false);
+    // unload profile if one is loaded
+    if (loadedProfile != -1) {
+      database.get(loadedProfile).setloaded(false);
     }
 
     // load profile
-    database.get(profileToLoad).setloaded(true);
+    database.get(profile).setloaded(true);
     MessageCli.PROFILE_LOADED.printMessage(userName);
+    return;
   }
 
   public void unloadProfile() {
 
-    // find profile loaded
-    for (int i = 0; i < database.size(); i++) {
-      Profile temp = database.get(i);
+    int profileLoaded = findLoadedProfile();
 
-      if (temp.getLoaded()) {
-        database.get(i).setloaded(false);
-        MessageCli.PROFILE_UNLOADED.printMessage(temp.getFirstName());
-        return;
-      }
+    // if profile is loaded unload it otherwise print error
+    if (profileLoaded != -1) {
+      database.get(profileLoaded).setloaded(false);
+      MessageCli.PROFILE_UNLOADED.printMessage(database.get(profileLoaded).getFirstName());
+      return;
+    } else {
+      MessageCli.NO_PROFILE_LOADED.printMessage();
+      return;
     }
-    MessageCli.NO_PROFILE_LOADED.printMessage();
-    return;
   }
 
   public void deleteProfile(String userName) {
     userName = toTitleCase(userName);
+    int profile = findProfile(userName);
+    int loadedProfile = findLoadedProfile();
 
-    // find if profile exists and if it is loaded
-    for (int i = 0; i < database.size(); i++) {
-      Profile temp = database.get(i);
-
-      if (temp.getFirstName().equals(userName)) {
-        if (temp.getLoaded()) {
-          MessageCli.CANNOT_DELETE_PROFILE_WHILE_LOADED.printMessage(userName);
-          return;
-        } else {
-          database.remove(i);
-          MessageCli.PROFILE_DELETED.printMessage(userName);
-          return;
-        }
-      }
+    // find if profile exists
+    if (profile == -1) {
+      MessageCli.NO_PROFILE_FOUND_TO_DELETE.printMessage(userName);
+      return;
     }
-    MessageCli.NO_PROFILE_FOUND_TO_DELETE.printMessage(userName);
+
+    // if a profile is loaded and it is the profile to be deleted print error
+    if (loadedProfile != -1 && loadedProfile == profile) {
+      MessageCli.CANNOT_DELETE_PROFILE_WHILE_LOADED.printMessage(
+          database.get(loadedProfile).getFirstName());
+      return;
+    }
+
+    // delete profile if passed all checks
+    database.remove(profile);
+    MessageCli.PROFILE_DELETED.printMessage(userName);
     return;
   }
 
@@ -168,5 +157,31 @@ public class InsuranceSystem {
     String firstLetter = "" + text.charAt(0);
     text = firstLetter.toUpperCase() + text.substring(1, nameLength).toLowerCase();
     return text;
+  }
+
+  // method to find profile returns index
+  public int findProfile(String userName) {
+    userName = toTitleCase(userName);
+
+    for (int i = 0; i < database.size(); i++) {
+      Profile temp = database.get(i);
+
+      if (temp.getFirstName().equals(userName)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  // method to find loaded profile returns index
+  public int findLoadedProfile() {
+    for (int i = 0; i < database.size(); i++) {
+      Profile temp = database.get(i);
+
+      if (temp.getLoaded()) {
+        return i;
+      }
+    }
+    return -1;
   }
 }

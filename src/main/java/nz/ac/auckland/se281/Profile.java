@@ -1,6 +1,6 @@
 package nz.ac.auckland.se281;
-// Profile class with name and age
 
+// Profile class with name and age and loaded fields
 public class Profile {
 
   // Instance Fields
