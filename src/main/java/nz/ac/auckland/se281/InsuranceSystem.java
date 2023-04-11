@@ -137,7 +137,25 @@ public class InsuranceSystem {
   }
 
   public void deleteProfile(String userName) {
-    // TODO: Complete this method.
+    userName = toTitleCase(userName);
+
+    // find if profile exists and if it is loaded
+    for (int i = 0; i < database.size(); i++) {
+      Profile temp = database.get(i);
+
+      if (temp.getFirstName().equals(userName)) {
+        if (temp.getLoaded()) {
+          MessageCli.CANNOT_DELETE_PROFILE_WHILE_LOADED.printMessage(userName);
+          return;
+        } else {
+          database.remove(i);
+          MessageCli.PROFILE_DELETED.printMessage(userName);
+          return;
+        }
+      }
+    }
+    MessageCli.NO_PROFILE_FOUND_TO_DELETE.printMessage(userName);
+    return;
   }
 
   public void createPolicy(PolicyType type, String[] options) {
