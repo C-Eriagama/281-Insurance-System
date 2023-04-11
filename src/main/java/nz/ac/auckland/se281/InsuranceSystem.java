@@ -32,7 +32,12 @@ public class InsuranceSystem {
       String name = temp.getFirstName();
       String age = Integer.toString(temp.getAge());
 
-      MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(Integer.toString(i + 1), name, age);
+      if (temp.getLoaded()) {
+        MessageCli.PRINT_DB_PROFILE_HEADER_SHORT.printMessage(
+            "*** ", Integer.toString(i + 1), name, age);
+      } else {
+        MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(Integer.toString(i + 1), name, age);
+      }
     }
   }
 
@@ -76,21 +81,37 @@ public class InsuranceSystem {
   public void loadProfile(String userName) {
     userName = toTitleCase(userName);
 
-    // find profile
+    // find profile and see if profile already loaded
     boolean match = false;
+    int profileLoaded = -1;
+    int profileToLoad = -1;
 
     for (int i = 0; i < database.size(); i++) {
 
       Profile temp = database.get(i);
-      if (temp.getFirstName() == userName) {
+
+      if (temp.getLoaded()) {
+        profileLoaded = i;
+      }
+
+      if (temp.getFirstName().equals(userName)) {
         match = true;
-        break;
+        profileToLoad = i;
       }
     }
 
     if (!match) {
       MessageCli.NO_PROFILE_FOUND_TO_LOAD.printMessage(userName);
+      return;
     }
+
+    if (profileLoaded != -1) {
+      database.get(profileLoaded).setloaded(false);
+    }
+
+    // load profile
+    database.get(profileToLoad).setloaded(true);
+    MessageCli.PROFILE_LOADED.printMessage(userName);
   }
 
   public void unloadProfile() {

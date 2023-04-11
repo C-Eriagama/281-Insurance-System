@@ -29,5 +29,6 @@ public class Profile {
 
   public void setloaded(boolean value) {
     loaded = value;
+    return;
   }
 }
