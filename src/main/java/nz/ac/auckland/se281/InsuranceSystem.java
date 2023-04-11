@@ -62,11 +62,17 @@ public class InsuranceSystem {
       return;
     }
 
-    // Check if username already exists
+    // Check if username already exists or if profile loaded
     for (int i = 0; i < database.size(); i++) {
       Profile temp = database.get(i);
+
       if (temp.getFirstName().equals(userName)) {
         MessageCli.INVALID_USERNAME_NOT_UNIQUE.printMessage(userName);
+        return;
+      }
+
+      if (temp.getLoaded()) {
+        MessageCli.CANNOT_CREATE_WHILE_LOADED.printMessage(temp.getFirstName());
         return;
       }
     }
@@ -115,7 +121,19 @@ public class InsuranceSystem {
   }
 
   public void unloadProfile() {
-    // TODO: Complete this method.
+
+    // find profile loaded
+    for (int i = 0; i < database.size(); i++) {
+      Profile temp = database.get(i);
+
+      if (temp.getLoaded()) {
+        database.get(i).setloaded(false);
+        MessageCli.PROFILE_UNLOADED.printMessage(temp.getFirstName());
+        return;
+      }
+    }
+    MessageCli.NO_PROFILE_LOADED.printMessage();
+    return;
   }
 
   public void deleteProfile(String userName) {
