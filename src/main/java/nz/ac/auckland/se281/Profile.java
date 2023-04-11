@@ -1,12 +1,15 @@
 package nz.ac.auckland.se281;
 
-// Profile class with name and age and loaded fields
+import java.util.ArrayList;
+
 public class Profile {
 
   // Instance Fields
   private String name;
   private int age;
   private boolean loaded;
+
+  ArrayList<Policy> policies = new ArrayList<Policy>();
 
   // Profile Constructor
   public Profile(String name, int age) {
