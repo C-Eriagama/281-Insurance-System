@@ -6,7 +6,8 @@ public class LifePolicy extends Policy {
   }
 
   public int calculateBasePremium(int age) {
-    return (1 + age / 100) / 100;
+    double rate = (1 + (double) age / 100) / 100;
+    return (int) ((double) sum * rate);
   }
 
   @Override

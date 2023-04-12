@@ -55,6 +55,7 @@ public class Profile {
         case HOME:
           String address = ((HomePolicy) policy).getAddress();
           MessageCli.PRINT_DB_HOME_POLICY.printMessage(address, sum, premium, "0");
+          break;
 
         case CAR:
           String makeModel = ((CarPolicy) policy).getMake() + " " + ((CarPolicy) policy).getModel();

@@ -25,7 +25,7 @@ public class InsuranceSystem {
       MessageCli.PRINT_DB_POLICY_COUNT.printMessage(Integer.toString(profileCount), "s", ":");
     }
 
-    // Print each profile
+    // Print each profile and policies
     for (int i = 0; i < profileCount; i++) {
 
       Profile temp = database.get(i);
@@ -45,7 +45,10 @@ public class InsuranceSystem {
         MessageCli.PRINT_DB_PROFILE_HEADER_MEDIUM.printMessage(
             "", Integer.toString(i + 1), name, age, totalPolicies, policySuffix);
       }
+
+      temp.printPolicies();
     }
+    return;
   }
 
   public void createNewProfile(String userName, String age) {
@@ -224,7 +227,7 @@ public class InsuranceSystem {
         }
 
         // Add policy and calculate base premium
-        profile.addPolicy(new LifePolicy(age));
+        profile.addPolicy(new LifePolicy(sum));
         basePremium = ((LifePolicy) policies.get(totalPolicies)).calculateBasePremium(age);
         policies.get(totalPolicies).setBasePremium(basePremium);
 
@@ -235,6 +238,7 @@ public class InsuranceSystem {
       default:
         break;
     }
+    return;
   }
 
   // method to convert string to titlecase
