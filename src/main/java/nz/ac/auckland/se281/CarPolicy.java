@@ -31,6 +31,18 @@ public class CarPolicy extends Policy {
     return premium;
   }
 
+  public String getMake() {
+    return make;
+  }
+
+  public String getModel() {
+    return model;
+  }
+
+  public String getLicensePlate() {
+    return licensePlate;
+  }
+
   @Override
   public Policy.Type getType() {
     return Policy.Type.CAR;

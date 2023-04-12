@@ -18,5 +18,13 @@ public abstract class Policy {
     this.basePremium = basePremium;
   }
 
+  public int getBasePremium() {
+    return basePremium;
+  }
+
+  public int getSum() {
+    return sum;
+  }
+
   public abstract Policy.Type getType();
 }

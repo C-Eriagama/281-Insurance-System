@@ -19,6 +19,10 @@ public class HomePolicy extends Policy {
     }
   }
 
+  public String getAddress() {
+    return address;
+  }
+
   @Override
   public Policy.Type getType() {
     return Policy.Type.HOME;

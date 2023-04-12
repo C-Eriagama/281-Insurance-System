@@ -43,6 +43,34 @@ public class Profile {
     return false;
   }
 
+  public void printPolicies() {
+
+    for (Policy policy : policies) {
+
+      Policy.Type type = policy.getType();
+      String sum = Integer.toString(policy.getSum());
+      String premium = Integer.toString(policy.getBasePremium());
+
+      switch (type) {
+        case HOME:
+          String address = ((HomePolicy) policy).getAddress();
+          MessageCli.PRINT_DB_HOME_POLICY.printMessage(address, sum, premium, "0");
+
+        case CAR:
+          String makeModel = ((CarPolicy) policy).getMake() + " " + ((CarPolicy) policy).getModel();
+          MessageCli.PRINT_DB_CAR_POLICY.printMessage(makeModel, sum, premium, "0");
+          break;
+
+        case LIFE:
+          MessageCli.PRINT_DB_LIFE_POLICY.printMessage(sum, premium, "0");
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+
   public String getFirstName() {
     return name;
   }

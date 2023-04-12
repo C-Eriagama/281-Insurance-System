@@ -31,12 +31,19 @@ public class InsuranceSystem {
       Profile temp = database.get(i);
       String name = temp.getFirstName();
       String age = Integer.toString(temp.getAge());
+      String totalPolicies = Integer.toString(temp.totalPolicies());
+      String policySuffix = "ies";
+
+      if (totalPolicies.equals("1")) {
+        policySuffix = "y";
+      }
 
       if (temp.getLoaded()) {
-        MessageCli.PRINT_DB_PROFILE_HEADER_SHORT.printMessage(
-            "*** ", Integer.toString(i + 1), name, age);
+        MessageCli.PRINT_DB_PROFILE_HEADER_MEDIUM.printMessage(
+            "*** ", Integer.toString(i + 1), name, age, totalPolicies, policySuffix);
       } else {
-        MessageCli.PRINT_DB_PROFILE_HEADER_MINIMAL.printMessage(Integer.toString(i + 1), name, age);
+        MessageCli.PRINT_DB_PROFILE_HEADER_MEDIUM.printMessage(
+            "", Integer.toString(i + 1), name, age, totalPolicies, policySuffix);
       }
     }
   }
@@ -180,6 +187,8 @@ public class InsuranceSystem {
         basePremium = ((HomePolicy) policies.get(totalPolicies)).calculateBasePremium();
         policies.get(totalPolicies).setBasePremium(basePremium);
 
+        MessageCli.NEW_POLICY_CREATED.printMessage("home", profile.getFirstName());
+
         break;
 
       case CAR:
@@ -199,6 +208,8 @@ public class InsuranceSystem {
         basePremium = ((CarPolicy) policies.get(totalPolicies)).calculateBasePremium(age);
         policies.get(totalPolicies).setBasePremium(basePremium);
 
+        MessageCli.NEW_POLICY_CREATED.printMessage("car", profile.getFirstName());
+
         break;
 
       case LIFE:
@@ -209,12 +220,16 @@ public class InsuranceSystem {
 
         if (profile.alreadyLifePolicy()) {
           MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(profile.getFirstName());
+          return;
         }
 
         // Add policy and calculate base premium
         profile.addPolicy(new LifePolicy(age));
         basePremium = ((LifePolicy) policies.get(totalPolicies)).calculateBasePremium(age);
         policies.get(totalPolicies).setBasePremium(basePremium);
+
+        MessageCli.NEW_POLICY_CREATED.printMessage("life", profile.getFirstName());
+
         break;
 
       default:
