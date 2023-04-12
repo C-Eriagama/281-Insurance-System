@@ -14,8 +14,8 @@ public abstract class Policy {
     this.sum = sum;
   }
 
-  public void setBasePremium(int premium) {
-    this.basePremium = premium;
+  public void setBasePremium(int basePremium) {
+    this.basePremium = basePremium;
   }
 
   public abstract Policy.Type getType();

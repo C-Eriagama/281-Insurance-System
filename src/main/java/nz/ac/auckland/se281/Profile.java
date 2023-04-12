@@ -22,6 +22,27 @@ public class Profile {
     policies.add(policy);
   }
 
+  public int totalPolicies() {
+    return policies.size();
+  }
+
+  public ArrayList<Policy> getPolicies() {
+    return policies;
+  }
+
+  public Policy getPolicy(int index) {
+    return policies.get(index);
+  }
+
+  public boolean alreadyLifePolicy() {
+    for (Policy policy : policies) {
+      if (policy.getType() == Policy.Type.LIFE) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public String getFirstName() {
     return name;
   }

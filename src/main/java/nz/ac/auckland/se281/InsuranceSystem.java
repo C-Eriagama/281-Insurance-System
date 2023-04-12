@@ -156,10 +156,16 @@ public class InsuranceSystem {
       return;
     }
 
+    // Initialise and retrieve variables
     Profile profile = database.get(loadedProfile);
-    int age = profile.getAge();
     int sum = Integer.parseInt(options[0]);
 
+    int age = profile.getAge();
+    int basePremium = 0;
+    int totalPolicies = profile.totalPolicies();
+    ArrayList<Policy> policies = profile.getPolicies();
+
+    // Switch case for each policy type
     switch (type) {
       case HOME:
         String address = options[1];
@@ -168,23 +174,47 @@ public class InsuranceSystem {
         if (options[2].equals("y")) {
           rental = true;
         }
+
+        // Add policy and calculate base premium
         profile.addPolicy(new HomePolicy(sum, address, rental));
+        basePremium = ((HomePolicy) policies.get(totalPolicies)).calculateBasePremium();
+        policies.get(totalPolicies).setBasePremium(basePremium);
+
         break;
 
       case CAR:
-        String make = options[1];
-        String model = options[2];
-        String licensePlate = options[3];
+        // initialise variables
+        String[] makeModel = options[1].split(" ");
+        String make = makeModel[0];
+        String model = makeModel[1];
+        String licensePlate = options[2];
         boolean mechanicalBreakdown = false;
 
         if (options[3].equals("y")) {
           mechanicalBreakdown = true;
         }
 
+        // Add policy and calculate base premium
         profile.addPolicy(new CarPolicy(sum, make, model, licensePlate, mechanicalBreakdown));
+        basePremium = ((CarPolicy) policies.get(totalPolicies)).calculateBasePremium(age);
+        policies.get(totalPolicies).setBasePremium(basePremium);
+
         break;
+
       case LIFE:
+        if (age > 100) {
+          MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(profile.getFirstName());
+          return;
+        }
+
+        if (profile.alreadyLifePolicy()) {
+          MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(profile.getFirstName());
+        }
+
+        // Add policy and calculate base premium
         profile.addPolicy(new LifePolicy(age));
+        basePremium = ((LifePolicy) policies.get(totalPolicies)).calculateBasePremium(age);
+        policies.get(totalPolicies).setBasePremium(basePremium);
         break;
 
       default:
