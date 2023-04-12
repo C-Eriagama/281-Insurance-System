@@ -33,17 +33,18 @@ public class InsuranceSystem {
       String age = Integer.toString(temp.getAge());
       String totalPolicies = Integer.toString(temp.totalPolicies());
       String policySuffix = "ies";
+      String total = Integer.toString(temp.calculateTotalPremium());
 
       if (totalPolicies.equals("1")) {
         policySuffix = "y";
       }
 
       if (temp.getLoaded()) {
-        MessageCli.PRINT_DB_PROFILE_HEADER_MEDIUM.printMessage(
-            "*** ", Integer.toString(i + 1), name, age, totalPolicies, policySuffix);
+        MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
+            "*** ", Integer.toString(i + 1), name, age, totalPolicies, policySuffix, total);
       } else {
-        MessageCli.PRINT_DB_PROFILE_HEADER_MEDIUM.printMessage(
-            "", Integer.toString(i + 1), name, age, totalPolicies, policySuffix);
+        MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
+            "", Integer.toString(i + 1), name, age, totalPolicies, policySuffix, total);
       }
 
       temp.printPolicies();
@@ -181,7 +182,7 @@ public class InsuranceSystem {
         String address = options[1];
         boolean rental = false;
 
-        if (options[2].equals("y")) {
+        if (options[2].toLowerCase().contains("y")) {
           rental = true;
         }
 
@@ -202,7 +203,7 @@ public class InsuranceSystem {
         String licensePlate = options[2];
         boolean mechanicalBreakdown = false;
 
-        if (options[3].equals("y")) {
+        if (options[3].toLowerCase().contains("y")) {
           mechanicalBreakdown = true;
         }
 
@@ -238,6 +239,8 @@ public class InsuranceSystem {
       default:
         break;
     }
+
+    profile.setDiscount();
     return;
   }
 
