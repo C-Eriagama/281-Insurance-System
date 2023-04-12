@@ -4,7 +4,6 @@ public class HomePolicy extends Policy {
 
   private String address;
   private boolean rental;
-  private int basePremium;
 
   HomePolicy(int sum, String address, boolean rental) {
     super(sum);
@@ -12,12 +11,11 @@ public class HomePolicy extends Policy {
     this.rental = rental;
   }
 
-  @Override
-  protected int calculateBasePremium() {
+  public int calculateBasePremium() {
     if (rental) {
-      return sum / 50;
+      return (int) (sum * 0.02);
     } else {
-      return sum / 100;
+      return (int) (sum * 0.01);
     }
   }
 

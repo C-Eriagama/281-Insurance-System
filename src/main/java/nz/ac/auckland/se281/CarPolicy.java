@@ -6,7 +6,6 @@ public class CarPolicy extends Policy {
   private String model;
   private String licensePlate;
   private boolean mechanicalBreakdown;
-  private int basePremium = 0;
 
   CarPolicy(int sum, String make, String model, String licensePlate, boolean mechanicalBreakdown) {
     super(sum);
@@ -16,24 +15,20 @@ public class CarPolicy extends Policy {
     this.mechanicalBreakdown = mechanicalBreakdown;
   }
 
-  @Override
-  protected int calculateBasePremium() {
-    calculateBasePremium(sum);
-    return basePremium;
-  }
-
-  private int calculateBasePremium(int age) {
+  public int calculateBasePremium(int age) {
+    int premium;
 
     if (age < 25) {
-      basePremium = (int) (sum * 0.15);
+      premium = (int) (sum * 0.15);
     } else {
-      basePremium = (int) (sum * 0.10);
+      premium = (int) (sum * 0.10);
     }
 
     if (mechanicalBreakdown) {
-      basePremium += 80;
+      premium += 80;
     }
-    return basePremium;
+
+    return premium;
   }
 
   @Override

@@ -18,6 +18,10 @@ public class Profile {
     loaded = false;
   }
 
+  public void addPolicy(Policy policy) {
+    policies.add(policy);
+  }
+
   public String getFirstName() {
     return name;
   }

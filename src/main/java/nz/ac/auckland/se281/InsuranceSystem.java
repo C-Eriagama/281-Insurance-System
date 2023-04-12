@@ -148,7 +148,48 @@ public class InsuranceSystem {
   }
 
   public void createPolicy(PolicyType type, String[] options) {
-    // TODO: Complete this method.
+    int loadedProfile = findLoadedProfile();
+
+    // ensure profile loaded
+    if (loadedProfile == -1) {
+      MessageCli.NO_PROFILE_FOUND_TO_CREATE_POLICY.printMessage();
+      return;
+    }
+
+    Profile profile = database.get(loadedProfile);
+    int age = profile.getAge();
+    int sum = Integer.parseInt(options[0]);
+
+    switch (type) {
+      case HOME:
+        String address = options[1];
+        boolean rental = false;
+
+        if (options[2].equals("y")) {
+          rental = true;
+        }
+        profile.addPolicy(new HomePolicy(sum, address, rental));
+        break;
+
+      case CAR:
+        String make = options[1];
+        String model = options[2];
+        String licensePlate = options[3];
+        boolean mechanicalBreakdown = false;
+
+        if (options[3].equals("y")) {
+          mechanicalBreakdown = true;
+        }
+
+        profile.addPolicy(new CarPolicy(sum, make, model, licensePlate, mechanicalBreakdown));
+        break;
+      case LIFE:
+        profile.addPolicy(new LifePolicy(age));
+        break;
+
+      default:
+        break;
+    }
   }
 
   // method to convert string to titlecase
