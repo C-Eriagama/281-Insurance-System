@@ -5,6 +5,7 @@ public class HomePolicy extends Policy {
   private String address;
   private boolean rental;
 
+  // HomePolicy constructor
   HomePolicy(int sum, String address, boolean rental) {
     super(sum);
     this.address = address;

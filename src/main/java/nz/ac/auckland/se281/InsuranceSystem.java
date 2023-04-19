@@ -28,6 +28,7 @@ public class InsuranceSystem {
     // Print each profile and policies
     for (int i = 0; i < profileCount; i++) {
 
+      // Initialise variables
       Profile temp = database.get(i);
       String name = temp.getFirstName();
       String age = Integer.toString(temp.getAge());
@@ -35,10 +36,12 @@ public class InsuranceSystem {
       String policySuffix = "ies";
       String total = Integer.toString(temp.calculateTotalPremium());
 
+      // Change suffix if only 1 policy
       if (totalPolicies.equals("1")) {
         policySuffix = "y";
       }
 
+      // Print the profiles and policies
       if (temp.getLoaded()) {
         MessageCli.PRINT_DB_PROFILE_HEADER_LONG.printMessage(
             "*** ", Integer.toString(i + 1), name, age, totalPolicies, policySuffix, total);
@@ -123,7 +126,7 @@ public class InsuranceSystem {
 
     int profileLoaded = findLoadedProfile();
 
-    // if profile is loaded unload it otherwise print error
+    // if  a profile is loaded unload it otherwise print error
     if (profileLoaded != -1) {
       database.get(profileLoaded).setloaded(false);
       MessageCli.PROFILE_UNLOADED.printMessage(database.get(profileLoaded).getFirstName());
@@ -217,11 +220,13 @@ public class InsuranceSystem {
         break;
 
       case LIFE:
+        // Error if age over 100
         if (age > 100) {
           MessageCli.OVER_AGE_LIMIT_LIFE_POLICY.printMessage(profile.getFirstName());
           return;
         }
 
+        // Error if already has a life policy
         if (profile.alreadyLifePolicy()) {
           MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(profile.getFirstName());
           return;
@@ -240,6 +245,7 @@ public class InsuranceSystem {
         break;
     }
 
+    // update discount value everytime a policy is added
     profile.setDiscount();
     return;
   }

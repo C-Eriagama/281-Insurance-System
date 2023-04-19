@@ -10,9 +10,12 @@ public abstract class Policy {
     LIFE
   }
 
+  // policy constructor
   public Policy(int sum) {
     this.sum = sum;
   }
+
+  // getters and setters
 
   public void setBasePremium(int basePremium) {
     this.basePremium = basePremium;

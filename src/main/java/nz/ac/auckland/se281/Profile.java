@@ -19,6 +19,8 @@ public class Profile {
     loaded = false;
   }
 
+  // Policy methods
+
   public void addPolicy(Policy policy) {
     policies.add(policy);
   }
@@ -35,6 +37,7 @@ public class Profile {
     return policies.get(index);
   }
 
+  // Update the discount value
   public void setDiscount() {
 
     if (policies.size() == 2) {
@@ -48,6 +51,7 @@ public class Profile {
     return;
   }
 
+  // Calculate the total premium as a sum of discounted premiums
   public int calculateTotalPremium() {
 
     int totalPremium = 0;
@@ -59,6 +63,7 @@ public class Profile {
     return totalPremium;
   }
 
+  // Check if the profile has a life policy
   public boolean alreadyLifePolicy() {
     for (Policy policy : policies) {
       if (policy.getType() == Policy.Type.LIFE) {
@@ -68,6 +73,7 @@ public class Profile {
     return false;
   }
 
+  // Print all the policies for a profile
   public void printPolicies() {
 
     for (Policy policy : policies) {
@@ -98,6 +104,8 @@ public class Profile {
       }
     }
   }
+
+  // Getters and Setters
 
   public String getFirstName() {
     return name;

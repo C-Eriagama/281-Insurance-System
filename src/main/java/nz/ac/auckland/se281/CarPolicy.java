@@ -7,6 +7,7 @@ public class CarPolicy extends Policy {
   private String licensePlate;
   private boolean mechanicalBreakdown;
 
+  // CarPolicy constructor
   CarPolicy(int sum, String make, String model, String licensePlate, boolean mechanicalBreakdown) {
     super(sum);
     this.make = make;
