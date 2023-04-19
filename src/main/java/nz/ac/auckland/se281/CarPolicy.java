@@ -19,6 +19,7 @@ public class CarPolicy extends Policy {
   public int calculateBasePremium(int age) {
     int premium;
 
+    // adjust premium based on age and mechanical breakdown
     if (age < 25) {
       premium = (int) (sum * 0.15);
     } else {

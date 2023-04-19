@@ -40,6 +40,7 @@ public class Profile {
   // Update the discount value
   public void setDiscount() {
 
+    // Adjust discount value based on number of policies
     if (policies.size() == 2) {
       this.discount = 0.9;
     } else if (policies.size() >= 3) {
@@ -64,7 +65,7 @@ public class Profile {
   }
 
   // Check if the profile has a life policy
-  public boolean alreadyLifePolicy() {
+  public boolean checkAlreadyLifePolicy() {
     for (Policy policy : policies) {
       if (policy.getType() == Policy.Type.LIFE) {
         return true;
@@ -78,12 +79,14 @@ public class Profile {
 
     for (Policy policy : policies) {
 
+      // Initialise variables for each policy
       Policy.Type type = policy.getType();
       String sum = Integer.toString(policy.getSum());
       String premium = Integer.toString(policy.getBasePremium());
       String discountPremium =
           Integer.toString((int) ((double) (policy.getBasePremium()) * this.discount));
 
+      // Switch statement to print policy correctly according to type
       switch (type) {
         case HOME:
           String address = ((HomePolicy) policy).getAddress();

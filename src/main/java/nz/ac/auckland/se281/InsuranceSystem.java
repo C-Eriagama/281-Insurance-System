@@ -227,7 +227,7 @@ public class InsuranceSystem {
         }
 
         // Error if already has a life policy
-        if (profile.alreadyLifePolicy()) {
+        if (profile.checkAlreadyLifePolicy()) {
           MessageCli.ALREADY_HAS_LIFE_POLICY.printMessage(profile.getFirstName());
           return;
         }
